@@ -1,14 +1,15 @@
 package com.example.gymtracker.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Date;
-
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "users")
 @Data
 public class UserEntity {

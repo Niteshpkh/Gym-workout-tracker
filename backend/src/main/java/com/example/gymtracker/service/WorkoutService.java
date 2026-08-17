@@ -35,6 +35,7 @@ public class WorkoutService {
             existingWorkout.setName(workout.getName());
             existingWorkout.setDate(workout.getDate());
             existingWorkout.setDuration(workout.getDuration());
+            existingWorkout.setExercises(workout.getExercises());
             return workoutRepository.save(existingWorkout);
         }
         return null;
@@ -48,5 +49,8 @@ public class WorkoutService {
             return true;
         }
         return false;
+    }
+    public List<WorkoutEntity> getWorkoutsByUser(String userId) {
+        return workoutRepository.findByUserId(userId);
     }
 }

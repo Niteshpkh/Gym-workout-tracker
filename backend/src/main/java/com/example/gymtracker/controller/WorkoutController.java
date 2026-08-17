@@ -18,7 +18,6 @@ public class WorkoutController {
         this.workoutService = workoutService;
     }
 
-    // CREATE
     @PostMapping
     public ResponseEntity<WorkoutEntity> createWorkout(
             @RequestBody WorkoutEntity workout) {
@@ -29,7 +28,6 @@ public class WorkoutController {
         return new ResponseEntity<>(savedWorkout, HttpStatus.CREATED);
     }
 
-    // READ ALL
     @GetMapping
     public ResponseEntity<List<WorkoutEntity>> getAllWorkouts() {
 
@@ -39,10 +37,10 @@ public class WorkoutController {
         return new ResponseEntity<>(workouts, HttpStatus.OK);
     }
 
-    // READ BY ID
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getWorkoutById(
-            @PathVariable String id) {
+            @PathVariable("id") String id) {
 
         WorkoutEntity workout =
                 workoutService.getWorkoutById(id);
@@ -57,11 +55,11 @@ public class WorkoutController {
         );
     }
 
-    // UPDATE
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateWorkout(
             @RequestBody WorkoutEntity workout,
-            @PathVariable String id) {
+            @PathVariable("id") String id) {
 
         WorkoutEntity updatedWorkout =
                 workoutService.updateWorkout(workout, id);
@@ -79,10 +77,10 @@ public class WorkoutController {
         );
     }
 
-    // DELETE
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteWorkout(
-            @PathVariable String id) {
+            @PathVariable("id")String id) {
 
         boolean deleted =
                 workoutService.deleteWorkout(id);
@@ -98,5 +96,14 @@ public class WorkoutController {
                 "Workout not found",
                 HttpStatus.NOT_FOUND
         );
+    }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<WorkoutEntity>> getWorkoutsByUser(
+            @PathVariable("userId") String userId) {
+
+        List<WorkoutEntity> workouts =
+                workoutService.getWorkoutsByUser(userId);
+
+        return new ResponseEntity<>(workouts, HttpStatus.OK);
     }
 }

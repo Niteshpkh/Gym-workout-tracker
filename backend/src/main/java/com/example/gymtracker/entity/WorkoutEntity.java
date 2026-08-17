@@ -7,10 +7,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.List;
 
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Document(collection = "workouts")
 public class WorkoutEntity {
 
@@ -24,4 +26,7 @@ public class WorkoutEntity {
     private LocalDate date;
 
     private Integer duration;
+
+    private List<WorkoutExcercise> exercises;
+
 }
