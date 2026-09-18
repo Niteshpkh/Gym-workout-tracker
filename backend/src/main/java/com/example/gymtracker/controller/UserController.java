@@ -2,6 +2,7 @@ package com.example.gymtracker.controller;
 
 import com.example.gymtracker.entity.UserEntity;
 import com.example.gymtracker.service.UserService;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

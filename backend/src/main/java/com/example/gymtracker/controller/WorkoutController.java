@@ -1,9 +1,12 @@
 package com.example.gymtracker.controller;
 
+import com.example.gymtracker.dto.WorkoutRequest;
 import com.example.gymtracker.entity.WorkoutEntity;
 import com.example.gymtracker.service.WorkoutService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,91 +22,52 @@ public class WorkoutController {
     }
 
     @PostMapping
-    public ResponseEntity<WorkoutEntity> createWorkout(
+    public ResponseEntity<WorkoutEntity> createWorkout(@RequestBody WorkoutRequest workoutRequest, @AuthenticationPrincipal UserDetails userDetails){
+        WorkoutEntity savedWorkout = workoutService.createWorkout(workoutRequest, userDetails.getUsername());
+        {
+            return new ResponseEntity<>(savedWorkout, HttpStatus.CREATED);
+        }
+    }
+
+    // 2. GET CURRENT USER'S WORKOUTS
+    @GetMapping("/my-workouts")
+    public ResponseEntity<List<WorkoutEntity>> getMyWorkouts(
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        List<WorkoutEntity> workouts = workoutService.getWorkoutForCurrentUser(userDetails.getUsername());
+        return ResponseEntity.ok(workouts);
+    }
+
+    // 3. GET BY ID
+    @GetMapping("/{id}")
+    public ResponseEntity<WorkoutEntity> getWorkoutById(@PathVariable String id) {
+        WorkoutEntity workout = workoutService.getWorkoutById(id);
+        if (workout != null) {
+            return ResponseEntity.ok(workout);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    // 4. UPDATE WORKOUT
+    @PutMapping("/{id}")
+    public ResponseEntity<WorkoutEntity> updateWorkout(
+            @PathVariable String id,
             @RequestBody WorkoutEntity workout) {
 
-        WorkoutEntity savedWorkout =
-                workoutService.createWorkout(workout);
-
-        return new ResponseEntity<>(savedWorkout, HttpStatus.CREATED);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<WorkoutEntity>> getAllWorkouts() {
-
-        List<WorkoutEntity> workouts =
-                workoutService.getAllWorkouts();
-
-        return new ResponseEntity<>(workouts, HttpStatus.OK);
-    }
-
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getWorkoutById(
-            @PathVariable("id") String id) {
-
-        WorkoutEntity workout =
-                workoutService.getWorkoutById(id);
-
-        if (workout != null) {
-            return new ResponseEntity<>(workout, HttpStatus.OK);
+        WorkoutEntity updated = workoutService.updateWorkout(workout, id);
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
         }
-
-        return new ResponseEntity<>(
-                "Workout not found",
-                HttpStatus.NOT_FOUND
-        );
+        return ResponseEntity.notFound().build();
     }
 
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateWorkout(
-            @RequestBody WorkoutEntity workout,
-            @PathVariable("id") String id) {
-
-        WorkoutEntity updatedWorkout =
-                workoutService.updateWorkout(workout, id);
-
-        if (updatedWorkout != null) {
-            return new ResponseEntity<>(
-                    updatedWorkout,
-                    HttpStatus.OK
-            );
-        }
-
-        return new ResponseEntity<>(
-                "Workout not found",
-                HttpStatus.NOT_FOUND
-        );
-    }
-
-
+    // 5. DELETE WORKOUT
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteWorkout(
-            @PathVariable("id")String id) {
-
-        boolean deleted =
-                workoutService.deleteWorkout(id);
-
+    public ResponseEntity<Void> deleteWorkout(@PathVariable String id) {
+        boolean deleted = workoutService.deleteWorkout(id);
         if (deleted) {
-            return new ResponseEntity<>(
-                    "Workout deleted successfully",
-                    HttpStatus.OK
-            );
+            return ResponseEntity.noContent().build();
         }
-
-        return new ResponseEntity<>(
-                "Workout not found",
-                HttpStatus.NOT_FOUND
-        );
-    }
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<WorkoutEntity>> getWorkoutsByUser(
-            @PathVariable("userId") String userId) {
-
-        List<WorkoutEntity> workouts =
-                workoutService.getWorkoutsByUser(userId);
-
-        return new ResponseEntity<>(workouts, HttpStatus.OK);
+        return ResponseEntity.notFound().build();
     }
 }
