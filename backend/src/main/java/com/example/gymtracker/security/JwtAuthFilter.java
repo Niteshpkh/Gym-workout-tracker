@@ -31,8 +31,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String username;
 
         // 1. Check if the Authorization header is present and starts with "Bearer "
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -40,28 +38,33 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        // 2. Extract token from "Bearer <token>"
-        jwt = authHeader.substring(7);
-        username = jwtService.extractUsername(jwt);
+        try {
+            // 2. Extract token from "Bearer <token>"
+            String jwt = authHeader.substring(7);
+            String username = jwtService.extractUsername(jwt);
 
-        // 3. If username exists and user is not already authenticated in this request
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            // 3. If username exists and user is not already authenticated in this request
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            // 4. Validate token against the database user
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
+                // 4. Validate token against the database user
+                if (jwtService.isTokenValid(jwt, userDetails)) {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
 
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                // 5. Tell Spring Security: "This user is authenticated!"
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                    // 5. Tell Spring Security: "This user is authenticated!"
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
+        } catch (Exception e) {
+            // Invalid/expired token — just continue without authenticating.
+            // Spring Security will handle 401/403 based on the route's auth requirements.
         }
 
         // 6. Continue to the controller
