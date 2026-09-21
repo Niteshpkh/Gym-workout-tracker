@@ -1,17 +1,18 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.jsx';
-import AuthPage from './Pages/AuthPage.jsx';
-import Dashboard from './Pages/Dashboard.jsx';
+
+import Dashboard from './pages/Dashboard.jsx';
 import Exercises from './pages/Exercises.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import AuthPage from './Pages/AuthPage.jsx';
 
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<AuthPage />} />
+          <Route path="/login" element={<AuthPage/>} />
           <Route
             path="/dashboard"
             element={
