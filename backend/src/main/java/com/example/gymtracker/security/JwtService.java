@@ -3,6 +3,7 @@ package com.example.gymtracker.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,11 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private final String SECRET_KEY =
-            "my-super-secret-key-for-gym-tracker-jwt-authentication-2026";
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
 
-    private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
+    @Value("${jwt.expiration-ms:86400000}")
+    private long EXPIRATION_TIME;
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(

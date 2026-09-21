@@ -1,7 +1,6 @@
 package com.example.gymtracker.repository;
 
 import com.example.gymtracker.entity.UserEntity;
-import org.springframework.data.domain.Example;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

@@ -1,0 +1,15 @@
+# Environment variables — never commit secrets
+.env
+*.env
+
+# Maven
+target/
+*.class
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# Logs
+*.log
