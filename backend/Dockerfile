@@ -1,0 +1,30 @@
+# Stage 1: Build the JAR with Maven & OpenJDK 21
+FROM eclipse-temurin:21-jdk-jammy AS build
+WORKDIR /app
+
+# Copy Maven wrapper and configuration
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+
+# Convert line endings and make the wrapper executable (handles Windows CRLF)
+RUN tr -d '\r' < mvnw > mvnw_unix && mv mvnw_unix mvnw && chmod +x mvnw
+
+# Download dependencies (cached layer)
+RUN ./mvnw dependency:go-offline -B
+
+# Copy project source and build package
+COPY src ./src
+RUN ./mvnw clean package -DskipTests
+
+# Stage 2: Minimal runtime image
+FROM eclipse-temurin:21-jre-jammy
+WORKDIR /app
+
+# Copy the built JAR from Stage 1
+COPY --from=build /app/target/*.jar app.jar
+
+# Render injects the PORT environment variable dynamically
+ENV PORT=8080
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-Dserver.port=${PORT}", "-jar", "app.jar"]
