@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8082',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://gym-workout-tracker-v12l.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },
