@@ -5,7 +5,7 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Exercises from './pages/Exercises.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
-import AuthPage from './Pages/AuthPage.jsx';
+import AuthPage from './pages/AuthPage.jsx';
 
 export default function App() {
   return (
