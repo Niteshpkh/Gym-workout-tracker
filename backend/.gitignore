@@ -1,6 +1,7 @@
 # Environment variables — never commit secrets
 .env
 *.env
+src/main/resources/application-local.properties
 
 # Maven
 target/
