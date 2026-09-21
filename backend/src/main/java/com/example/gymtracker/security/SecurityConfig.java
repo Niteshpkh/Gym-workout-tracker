@@ -56,6 +56,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(List.of(
                 "https://*.vercel.app",
+                "https://gym-workout-tracker-pwh83t2qu-nitesh-cbeb.vercel.app/login",
                 "https://gym-workout-tracker-lyart.vercel.app",
                 "http://localhost:5173",
                 "http://localhost:3000"
