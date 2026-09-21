@@ -59,7 +59,7 @@ public class SecurityConfig {
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(
                                 "/auth/**",
-                                "/users", "/users/**"
+                                "/users", "/users/**" ,"/actuator/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
