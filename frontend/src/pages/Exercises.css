@@ -1,22 +1,77 @@
-.exercises-container {
+.dashboard-container {
   min-height: 100vh;
+  min-height: 100dvh;
   background-color: #0f172a;
   color: #f8fafc;
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Navbar
+   ========================================================================== */
+.navbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background-color: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+
+@media (min-width: 640px) {
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .nav-left {
+    width: auto;
+    gap: 2rem;
+  }
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #818cf8;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .nav-brand {
+    font-size: 1.25rem;
+  }
 }
 
 .nav-links {
   display: flex;
-  gap: 16px;
+  gap: 14px;
   align-items: center;
 }
 
 .nav-link {
   color: #94a3b8;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
+  padding: 4px 0;
   transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .nav-link:hover,
@@ -24,80 +79,468 @@
   color: #818cf8;
 }
 
-.exercise-filter-bar {
+.nav-actions {
   display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding-bottom: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .nav-actions {
+    width: auto;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+}
+
+.user-badge {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: transparent;
+  color: #f87171;
+  border: 1px solid #7f1d1d;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  min-height: 38px;
+  transition: background-color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.logout-btn:hover {
+  background-color: #450a0a;
+}
+
+/* ==========================================================================
+   Main Content Area
+   ========================================================================== */
+.main-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .main-content {
+    padding: 2rem 1.5rem;
+  }
+}
+
+.content-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
   margin-bottom: 1.5rem;
 }
 
-.filter-chip {
-  background-color: #1e293b;
-  border: 1px solid #334155;
-  color: #94a3b8;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s ease;
+@media (min-width: 520px) {
+  .content-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
 }
 
-.filter-chip:hover {
-  border-color: #6366f1;
-  color: #f8fafc;
+.content-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
 }
 
-.filter-chip.active {
+@media (min-width: 640px) {
+  .content-title {
+    font-size: 1.75rem;
+  }
+}
+
+.primary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background-color: #4f46e5;
   color: #ffffff;
-  border-color: #4f46e5;
+  border: none;
+  padding: 10px 18px;
+  min-height: 44px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.exercise-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.25rem;
+.primary-btn:hover:not(:disabled) {
+  background-color: #4338ca;
 }
 
-.exercise-card {
-  background-color: #1e293b;
-  border: 1px solid #334155;
-  border-radius: 12px;
-  padding: 1.25rem;
+.primary-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.primary-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.primary-btn.submit-btn {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+/* ==========================================================================
+   Workout Cards
+   ========================================================================== */
+.workout-grid {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 1rem;
 }
 
-.exercise-header {
+.workout-card {
+  background-color: #1e293b;
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 1px solid #334155;
+}
+
+@media (min-width: 640px) {
+  .workout-card {
+    padding: 1.5rem;
+  }
+}
+
+.card-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.75rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
-.exercise-title {
-  font-size: 1.1rem;
+@media (min-width: 480px) {
+  .card-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.card-title {
+  font-size: 1.15rem;
   font-weight: 600;
   color: #f1f5f9;
   margin: 0;
 }
 
-.muscle-badge {
-  background-color: #312e81;
-  color: #c7d2fe;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 9999px;
-  text-transform: uppercase;
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.8rem;
+  color: #94a3b8;
 }
 
-.exercise-desc {
-  font-size: 0.85rem;
-  color: #94a3b8;
-  line-height: 1.4;
+@media (min-width: 480px) {
+  .card-meta {
+    font-size: 0.85rem;
+    gap: 16px;
+  }
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.exercise-block {
+  margin-top: 0.75rem;
+  background-color: #0f172a;
+  padding: 0.75rem 0.875rem;
+  border-radius: 8px;
+}
+
+.exercise-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #38bdf8;
+  margin-bottom: 0.5rem;
+}
+
+.sets-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.set-chip {
+  background-color: #1e293b;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  border: 1px solid #334155;
+}
+
+/* ==========================================================================
+   Modal & Forms
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: flex-end; /* Mobile bottom-sheet effect */
+  justify-content: center;
+  padding: 0;
+  z-index: 50;
+}
+
+@media (min-width: 520px) {
+  .modal-backdrop {
+    align-items: center;
+    padding: 1rem;
+  }
+}
+
+.modal-card {
+  background-color: #1e293b;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90dvh;
+  overflow-y: auto;
+  border-radius: 16px 16px 0 0;
+  padding: 1.25rem;
+  border: 1px solid #334155;
+  box-sizing: border-box;
+}
+
+@media (min-width: 520px) {
+  .modal-card {
+    border-radius: 16px;
+    padding: 2rem;
+    max-height: 85vh;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.modal-title {
   margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  min-height: 40px;
+  min-width: 40px;
+}
+
+.close-btn:hover {
+  color: #f8fafc;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (min-width: 480px) {
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 12px;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  color: #f8fafc;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 16px; /* Prevents auto-zoom in iOS Safari */
+  -webkit-appearance: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #6366f1;
+}
+
+.modal-divider {
+  border: none;
+  border-top: 1px solid #334155;
+  margin: 0.5rem 0;
+}
+
+.section-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
+}
+
+.exercise-input-group {
+  border: 1px solid #334155;
+  padding: 0.875rem;
+  border-radius: 8px;
+  background-color: #0f172a;
+  margin-top: 0.75rem;
+}
+
+.exercise-select-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.exercise-select {
+  flex: 1;
+}
+
+.set-input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  min-height: 40px;
+  min-width: 40px;
+}
+
+.remove-btn:hover {
+  background-color: #450a0a;
+}
+
+.add-sub-btn {
+  background: none;
+  border: 1px dashed #6366f1;
+  color: #818cf8;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-top: 8px;
+  min-height: 40px;
+  width: 100%;
+  transition: background-color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 480px) {
+  .add-sub-btn {
+    width: auto;
+  }
+}
+
+.add-sub-btn:hover {
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+.add-exercise-btn {
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* ==========================================================================
+   State Indicators & Animations
+   ========================================================================== */
+.loading-box {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: #1e293b;
+  border-radius: 12px;
+  border: 1px dashed #334155;
+  color: #94a3b8;
+}
+
+.empty-state-icon {
+  margin-bottom: 1rem;
+  color: #475569;
+}
+
+.spinner-icon {
+  animation: spin 1s linear infinite;
+  color: #818cf8;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
