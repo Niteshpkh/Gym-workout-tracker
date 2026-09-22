@@ -59,7 +59,10 @@ public class SecurityConfig {
                 "https://gym-workout-tracker-pwh83t2qu-nitesh-cbeb.vercel.app/login",
                 "https://gym-workout-tracker-lyart.vercel.app",
                 "http://localhost:5173",
-                "http://localhost:3000"
+                "http://localhost:3000",
+                "https://niteshpokhrel123.com.np",
+                "https://www.niteshpokhrel123.com.np",
+                "niteshpokhrel123.com.np"
         ));
 
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
